@@ -1,10 +1,11 @@
 use std::fs;
 use std::io;
+use std::path::PathBuf;
 use rand::Rng;
 
 fn main() -> io::Result<()> {
-    let f = "fortunes";
-    let f = fs::read_to_string(f)?;
+    let path = PathBuf::from("fortunes");
+    let f = fs::read_to_string(path)?;
     let quotes: Vec<&str> = f.split("\n%\n").collect();
 
     let mut random = rand::thread_rng();
