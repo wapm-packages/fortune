@@ -1,5 +1,5 @@
 # rust-fortune
-A fortune teller written in Rust
+A fortune teller written in Rust as a beginner project.
 
 Use this little program to display fortunes. For example as a greeting in your Linux shell.
 
@@ -21,3 +21,6 @@ funcsave fish_greeting
 ```
 
 Enjoy!
+
+### Todo
+Error handling.. features..
