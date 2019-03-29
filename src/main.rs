@@ -6,7 +6,6 @@ use rand::Rng;
 fn main() -> io::Result<()> {
 
     let file = read_file().unwrap();
-
     let quotes: Vec<&str> = file.split("\n%\n").collect();
 
     let mut r_thread = rand::thread_rng();
@@ -21,7 +20,10 @@ fn main() -> io::Result<()> {
 
 fn read_file() -> Result<String, &'static str> {
 
-    let quotebase = directory(std::path::Path::new("fortunes.txt")).unwrap();
+    let quotebase = match directory("fortunes.txt") {
+        Ok(n) => n,
+        Err(err) => return Err(err)
+    };
 
     let file = match fs::read_to_string(quotebase) {
         Ok(f) => f,
@@ -29,7 +31,6 @@ fn read_file() -> Result<String, &'static str> {
     };
 
     Ok(file)
-
 }
 
 fn directory<F: AsRef<Path>>(file: F) -> Result<std::path::PathBuf, &'static str> {
@@ -46,6 +47,8 @@ fn directory<F: AsRef<Path>>(file: F) -> Result<std::path::PathBuf, &'static str
 
     let path = exe_parent_path.join(file);
 
-    Ok(path)
-
+    match path.exists() {
+        true => Ok(path),
+        false => Err("Path does not exist")
+    }
 }
