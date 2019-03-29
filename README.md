@@ -10,7 +10,8 @@ Make the program globaly runnable
 
 
 ### Fish Shell
-Write this out in your terminal.
+To make your fish shell greet you with a fortune every time you open up your terminal,
+write this out in your terminal.
 
 ```
 function fish_greeting
