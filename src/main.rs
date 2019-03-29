@@ -44,8 +44,9 @@ fn directory<F: AsRef<Path>>(file: F) -> Result<std::path::PathBuf, &'static str
 
     let path = exe_parent_path.join(file);
 
-    match path.exists() {
-        true => Ok(path),
-        false => Err("Path does not exist")
-    }
+    if path.exists() { 
+        Ok(path) 
+        } else {
+            Err("Path not found")
+        }
 }
