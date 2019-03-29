@@ -18,7 +18,7 @@ fn main() -> io::Result<()> {
 }
 
 fn read_file() -> Result<String, &'static str> {
-    let quotebase = match directory("fortunes.txt") {
+    let quotebase = match directory("fortunes") {
         Ok(n) => n,
         Err(err) => return Err(err)
     };
