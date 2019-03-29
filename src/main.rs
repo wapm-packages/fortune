@@ -4,7 +4,6 @@ use std::path::Path;
 use rand::Rng;
 
 fn main() -> io::Result<()> {
-
     let file = read_file().unwrap();
     let quotes: Vec<&str> = file.split("\n%\n").collect();
 
@@ -19,7 +18,6 @@ fn main() -> io::Result<()> {
 }
 
 fn read_file() -> Result<String, &'static str> {
-
     let quotebase = match directory("fortunes.txt") {
         Ok(n) => n,
         Err(err) => return Err(err)
@@ -34,7 +32,6 @@ fn read_file() -> Result<String, &'static str> {
 }
 
 fn directory<F: AsRef<Path>>(file: F) -> Result<std::path::PathBuf, &'static str> {
-    
     let exe_path = match std::env::current_exe() {
         Ok(f) => f,
         Err(_) => return Err("Can't find executable"),
