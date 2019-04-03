@@ -2,10 +2,13 @@ use std::fs;
 use std::io;
 use std::path::Path;
 use rand::Rng;
+use std::process;
 
 fn main() -> io::Result<()> {
+
     let file = read_file().unwrap();
     let quotes: Vec<&str> = file.split("\n%\n").collect();
+
 
     let mut r_thread = rand::thread_rng();
     let r_num = r_thread.gen_range(0, quotes.len() - 1);
@@ -13,6 +16,7 @@ fn main() -> io::Result<()> {
     for q in quotes[r_num].chars() {
         print!("{}", q);
     }
+    println!("");
 
     Ok(())
 }
@@ -20,12 +24,18 @@ fn main() -> io::Result<()> {
 fn read_file() -> Result<String, &'static str> {
     let quotebase = match directory("fortunes") {
         Ok(n) => n,
-        Err(err) => return Err(err)
+        Err(err) => {
+            eprintln!("Error finding file: {}", err);
+            process::exit(1);
+        }
     };
 
     let file = match fs::read_to_string(quotebase) {
         Ok(f) => f,
-        Err(_) => return Err("Could not open file"),
+        Err(err) => {
+            eprintln!("Error reading file: {}", err);
+            process::exit(1);
+        }
     };
 
     Ok(file)
@@ -34,7 +44,7 @@ fn read_file() -> Result<String, &'static str> {
 fn directory<F: AsRef<Path>>(file: F) -> Result<std::path::PathBuf, &'static str> {
     let exe_path = match std::env::current_exe() {
         Ok(f) => f,
-        Err(_) => return Err("Can't find executable"),
+        Err(_) => return Err("Could not find executable."),
     };
     
     let exe_parent_path = match exe_path.parent() {
@@ -47,6 +57,6 @@ fn directory<F: AsRef<Path>>(file: F) -> Result<std::path::PathBuf, &'static str
     if path.exists() { 
         Ok(path) 
         } else {
-            Err("Path not found")
+            Err("Path not found.")
         }
 }
