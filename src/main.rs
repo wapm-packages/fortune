@@ -6,7 +6,6 @@ use std::process;
 use std::env;
 
 fn main() -> io::Result<()> {
-
     let args: Vec<String> = env::args().collect();
 
     if args.len() > 1 {
@@ -38,7 +37,6 @@ fn main() -> io::Result<()> {
 }
 
 fn quote_run(i: &str) {
-
     let file = read_file().unwrap();
     let quotes: Vec<&str> = file.split("\n%\n").collect();
 
@@ -57,7 +55,6 @@ fn quote_run(i: &str) {
             r_num = r_thread.gen_range(0, tmp.len());
             println!("{}", tmp[r_num]);
         }
-
         "medium" => {
             for q in &quotes {
                 if q.len() > 150 && q.len() < 400 {
