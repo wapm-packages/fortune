@@ -3,22 +3,83 @@ use std::io;
 use std::path::Path;
 use rand::Rng;
 use std::process;
+use std::env;
 
 fn main() -> io::Result<()> {
+
+    let args: Vec<String> = env::args().collect();
+
+    if args.len() > 1 {
+        match args[1].to_lowercase().as_str() {
+            "-h" | "--h" => {
+                println!("available commands:");
+                println!("\t-h                        this screen right here.");
+                println!("\t-o <short,medium,long>    output short,medium or long quotes only.");
+                process::exit(1);
+            }
+            "-o" | "--o" => {
+                if args.len() > 2 {
+                    match args[2].to_lowercase().as_str() {
+                        "short" => quote_run("short"),
+                        "medium" => quote_run("medium"),
+                        "long" => quote_run("long"),
+                        _ => println!("Use short, medium or long.")
+                    }
+                }
+            }
+            _ => println!("No such command.")
+        }
+    } 
+    else {
+        quote_run("all");
+    }
+
+    Ok(())
+}
+
+fn quote_run(i: &str) {
 
     let file = read_file().unwrap();
     let quotes: Vec<&str> = file.split("\n%\n").collect();
 
-
     let mut r_thread = rand::thread_rng();
-    let r_num = r_thread.gen_range(0, quotes.len() - 1);
+    let mut r_num = r_thread.gen_range(0, quotes.len() -1);
 
-    for q in quotes[r_num].chars() {
-        print!("{}", q);
+    let mut tmp = vec![];
+
+    match i {
+        "short" => {
+            for q in &quotes {
+                if q.len() <= 150 {
+                    tmp.push(q)
+                }
+            }
+            r_num = r_thread.gen_range(0, tmp.len());
+            println!("{}", tmp[r_num]);
+        }
+
+        "medium" => {
+            for q in &quotes {
+                if q.len() > 150 && q.len() < 400 {
+                    tmp.push(q)
+                }
+            }
+            r_num = r_thread.gen_range(0, tmp.len());
+            println!("{}", tmp[r_num]);
+        }
+        "long" => {
+            for q in &quotes {
+                if q.len() > 400 {
+                    tmp.push(q)
+                }
+            }
+            r_num = r_thread.gen_range(0, tmp.len());
+            println!("{}", tmp[r_num]);
+        }
+        _ => {
+            println!("{}", quotes[r_num]);
+        }
     }
-    println!("");
-
-    Ok(())
 }
 
 fn read_file() -> Result<String, &'static str> {
