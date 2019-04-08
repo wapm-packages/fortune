@@ -36,45 +36,46 @@ fn main() -> io::Result<()> {
     Ok(())
 }
 
+fn random(i: usize) -> usize {
+    let mut r_thread = rand::thread_rng();
+    r_thread.gen_range(0, i)
+}
+
 fn quote_run(i: &str) {
     let file = read_file().unwrap();
     let quotes: Vec<&str> = file.split("\n%\n").collect();
 
-    let mut r_thread = rand::thread_rng();
-    let mut r_num = r_thread.gen_range(0, quotes.len() -1);
-
     let mut tmp = vec![];
+    let short = 150;
+    let long = 400;
 
     match i {
         "short" => {
             for q in &quotes {
-                if q.len() <= 150 {
+                if q.len() <= short {
                     tmp.push(q)
                 }
             }
-            r_num = r_thread.gen_range(0, tmp.len());
-            println!("{}", tmp[r_num]);
+            println!("{}", tmp[random(tmp.len())]);
         }
         "medium" => {
             for q in &quotes {
-                if q.len() > 150 && q.len() < 400 {
+                if q.len() > short && q.len() < long {
                     tmp.push(q)
                 }
             }
-            r_num = r_thread.gen_range(0, tmp.len());
-            println!("{}", tmp[r_num]);
+            println!("{}", tmp[random(tmp.len())]);
         }
         "long" => {
             for q in &quotes {
-                if q.len() > 400 {
+                if q.len() > long {
                     tmp.push(q)
                 }
             }
-            r_num = r_thread.gen_range(0, tmp.len());
-            println!("{}", tmp[r_num]);
+            println!("{}", tmp[random(tmp.len())]);
         }
         _ => {
-            println!("{}", quotes[r_num]);
+            println!("{}", quotes[random(quotes.len() - 1)]);
         }
     }
 }
