@@ -19,20 +19,23 @@ fn main() -> io::Result<()> {
             "-o" | "--o" => {
                 if args.len() > 2 {
                     match args[2].to_lowercase().as_str() {
-                        "short" => quote_run("short"),
-                        "medium" => quote_run("medium"),
-                        "long" => quote_run("long"),
+                        "short" => get_quote("short"),
+                        "medium" => get_quote("medium"),
+                        "long" => get_quote("long"),
                         _ => println!("Use short, medium or long.")
                     }
                 }
+            }
+            "-m" | "--m" => {
+                unimplemented!();
             }
             _ => println!("No such command.")
         }
     } 
     else {
-        quote_run("all");
+        get_quote("");
     }
-
+    
     Ok(())
 }
 
@@ -41,7 +44,7 @@ fn random(i: usize) -> usize {
     r_thread.gen_range(0, i)
 }
 
-fn quote_run(i: &str) {
+fn get_quote(quote_size: &str) {
     let file = read_file().unwrap();
     let quotes: Vec<&str> = file.split("\n%\n").collect();
 
@@ -49,7 +52,7 @@ fn quote_run(i: &str) {
     let short = 150;
     let long = 400;
 
-    match i {
+    match quote_size {
         "short" => {
             for q in &quotes {
                 if q.len() <= short {
@@ -115,7 +118,7 @@ fn directory<F: AsRef<Path>>(file: F) -> Result<std::path::PathBuf, &'static str
 
     if path.exists() { 
         Ok(path) 
-        } else {
-            Err("Path not found.")
-        }
+    } else {
+        Err("Path not found.")
+    }
 }
