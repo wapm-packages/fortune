@@ -1,8 +1,10 @@
 [package]
-name = "rust-fortune"
+name = "fortune"
 version = "0.1.0"
 authors = ["dennemann"]
 edition = "2018"
 
 [dependencies]
-rand = "0.4.0"
+rand = {git = "https://github.com/rust-random/rand"}
+getrandom = "0.1.2"
+include_dir="0.2.1"

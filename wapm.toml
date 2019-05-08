@@ -1,0 +1,15 @@
+[package]
+name = "fortune"
+version = "0.1.0"
+description = "fortune is a program that displays a pseudorandom message from a database of quotations"
+readme = "README.md"
+repository = "https://github.com/wapm-packages/fortune"
+
+[[module]]
+name = "fortune"
+source = "target/wasm32-unknown-wasi/release/fortune.wasm"
+abi = "wasi"
+
+[[command]]
+name = "fortune"
+module = "fortune"

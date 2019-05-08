@@ -1,9 +1,16 @@
+// #[macro_use]
+// extern crate include_dir;
+
 use std::fs;
 use std::io;
 use std::path::Path;
 use rand::Rng;
 use std::process;
 use std::env;
+
+// use include_dir::Dir;
+
+// const PROJECT_DIR: Dir = include_dir!("src/data/");
 
 fn main() -> io::Result<()> {
     let args: Vec<String> = env::args().collect();
@@ -84,41 +91,11 @@ fn get_quote(quote_size: &str) {
 }
 
 fn read_file() -> Result<String, &'static str> {
-    let quotebase = match directory("fortunes") {
-        Ok(n) => n,
-        Err(err) => {
-            eprintln!("Error finding file: {}", err);
-            process::exit(1);
-        }
-    };
-
-    let file = match fs::read_to_string(quotebase) {
-        Ok(f) => f,
-        Err(err) => {
-            eprintln!("Error reading file: {}", err);
-            process::exit(1);
-        }
-    };
-
-    Ok(file)
-}
-
-fn directory<F: AsRef<Path>>(file: F) -> Result<std::path::PathBuf, &'static str> {
-    let exe_path = match std::env::current_exe() {
-        Ok(f) => f,
-        Err(_) => return Err("Could not find executable."),
-    };
-    
-    let exe_parent_path = match exe_path.parent() {
-        Some(f) => f,
-        None => return Err("Can't get executable's parent path."),
-    };
-
-    let path = exe_parent_path.join(file);
-
-    if path.exists() { 
-        Ok(path) 
-    } else {
-        Err("Path not found.")
-    }
+    return Ok(include_str!("data/fortunes").to_string())
+    // let fmt = &format!("fortunes");
+    // let file = PROJECT_DIR
+    //     .get_file(&fmt)
+    //     .expect(&format!("Can't find the fortunes file"));
+    // let contents = str::from_utf8(file.contents).unwrap().to_string();
+    // Ok(contents)
 }
