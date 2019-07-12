@@ -10,6 +10,9 @@ name = "fortune"
 source = "target/wasm32-unknown-wasi/release/fortune.wasm"
 abi = "wasi"
 
+[module.interfaces]
+wasi = "0.0.0-unstable"
+
 [[command]]
 name = "fortune"
 module = "fortune"
