@@ -30,23 +30,23 @@ available commands:
 First, you will need the WASI target installed in your Rust system:
 
 ```shell
-rustup target add wasm32-unknown-wasi --toolchain nightly
+rustup target add wasm32-wasi
 ```
 
 Once WASI is available, you can build the WebAssembly binary by yourself with:
 
 ```shell
-cargo +nightly build --release --target wasm32-unknown-wasi
+cargo build --release --target wasm32-wasi
 ```
 
-This will create a new file located at `target/wasm32-unknown-wasi/release/fortune.wasm`.
+This will create a new file located at `target/wasm32-wasi/release/fortune.wasm`.
 
 When the wasm file is created you can upload it to wapm or execute it with wasmer:
 
 ```shell
 wapm publish
 # OR
-wasmer run  target/wasm32-unknown-wasi/release/fortune.wasm
+wasmer run target/wasm32-wasi/release/fortune.wasm
 ```
 
 You can also build a native executable with
